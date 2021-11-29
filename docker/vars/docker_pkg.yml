@@ -1,0 +1,5 @@
+# List of Docker packages to be installed.
+docker_pkg:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io

@@ -1,0 +1,27 @@
+---
+    - name: Load Docker packages
+      include_vars:
+        file: vars/docker_pkg.yml
+
+    - name: Add Docker Engine Repo
+      # rhel
+      shell: dnf config-manager --add-repo=https://download.docker.com/linux/fedora/docker-ce.repo
+
+    - name: Install Docker Packages
+      dnf:
+        name: "{{ docker_pkg }}"
+        state: present
+        update_cache: yes
+
+    - name: Restart docker
+      systemd:
+        name: docker
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+
+    - name: Add current user to docker group
+      user:
+        name: "{{ ansible_user}}"
+        groups: docker
+        append: yes
